@@ -31,6 +31,8 @@ export function LoanCalculationResults({ results }: LoanCalculationResultsProps)
     return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
   };
 
+  const exist = results?.recommendations?.extended_tenure?.loan_amount != null;
+
   return (
     <Card className="w-full mt-6">
       <CardHeader>
@@ -80,35 +82,35 @@ export function LoanCalculationResults({ results }: LoanCalculationResultsProps)
                 <TableHeader>
                   <TableRow>
                     <TableHead>Option</TableHead>
-                    <TableHead>Extended Tenure</TableHead>
+                    {exist &&<TableHead>Extended Tenure</TableHead>}
                     <TableHead>Reduced Amount</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                 <TableRow>
                     <TableCell className="font-medium">Loan Amount</TableCell>
-                    <TableCell>{formatCurrency(results.recommendations.extended_tenure?.loan_amount)}</TableCell>
+                    {exist && <TableCell>{formatCurrency(results.recommendations.extended_tenure?.loan_amount)}</TableCell>}
                     <TableCell>{formatCurrency(results.recommendations.reduced_amount?.loan_amount)}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">EMI</TableCell>
-                    <TableCell>{formatCurrency(results.recommendations.extended_tenure?.emi)}</TableCell>
+                    {exist &&<TableCell>{formatCurrency(results.recommendations.extended_tenure?.emi)}</TableCell>}
                     <TableCell>{formatCurrency(results.recommendations.reduced_amount?.emi)}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Interest Rate</TableCell>
-                    <TableCell>{results.recommendations.extended_tenure?.interest_rate}%</TableCell>
+                    {exist &&<TableCell>{results.recommendations.extended_tenure?.interest_rate}%</TableCell>}
                     <TableCell>{results.recommendations.reduced_amount?.interest_rate}%</TableCell>
                   </TableRow>
                   
                   <TableRow>
                     <TableCell className="font-medium">Tenure (Months)</TableCell>
-                    <TableCell>{results.recommendations.extended_tenure?.tenure_months}</TableCell>
+                    {exist &&<TableCell>{results.recommendations.extended_tenure?.tenure_months}</TableCell>}
                     <TableCell>{results.recommendations.reduced_amount?.tenure_months}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Total Payment</TableCell>
-                    <TableCell>{formatCurrency(results.recommendations.extended_tenure?.total_payment)}</TableCell>
+                    {exist &&<TableCell>{formatCurrency(results.recommendations.extended_tenure?.total_payment)}</TableCell>}
                     <TableCell>{formatCurrency(results.recommendations.reduced_amount?.total_payment)}</TableCell>
                   </TableRow>
                 </TableBody>
