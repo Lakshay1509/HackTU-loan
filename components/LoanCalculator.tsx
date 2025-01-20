@@ -66,7 +66,7 @@ export default function LoanCalculator({ transactions }: { transactions?: any[] 
     <Card>
       <CardHeader>
         <CardTitle className="text-xl font-bold text-blue-600">
-          Loan Calculator
+          Loan Advisor
         </CardTitle>
       </CardHeader>
       <CardContent>
