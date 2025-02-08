@@ -1,33 +1,32 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { recommendedLoans } from '../dummyData'
-import { formatCurrency } from '../utils/formatCurrency'
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { LoanCard } from "./loan-card"
+
+const recommendedLoans = [
+  { name: "Personal Loan", interestRate: 8.5, emi: 1200, tenure: 36, isRecommended: true },
+  { name: "Home Loan", interestRate: 6.5, emi: 2500, tenure: 240 },
+  { name: "Car Loan", interestRate: 7.5, emi: 800, tenure: 60 },
+  { name: "Education Loan", interestRate: 9.0, emi: 1000, tenure: 48 },
+]
 
 export default function RecommendedLoans() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-xl font-bold text-blue-600">Recommended Loans</CardTitle>
+        <CardTitle className="text-blue-700">Top Recommended Loans</CardTitle>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Amount</TableHead>
-              <TableHead>Year</TableHead>
-              <TableHead>EMI%</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
+        <Carousel className="w-full max-w-xs mx-auto">
+          <CarouselContent>
             {recommendedLoans.map((loan, index) => (
-              <TableRow key={index}>
-                <TableCell>{formatCurrency(loan.amount)}</TableCell>
-                <TableCell>{loan.year}</TableCell>
-                <TableCell>{loan.emiPercentage}%</TableCell>
-              </TableRow>
+              <CarouselItem key={index}>
+                <LoanCard {...loan} />
+              </CarouselItem>
             ))}
-          </TableBody>
-        </Table>
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </CardContent>
     </Card>
   )

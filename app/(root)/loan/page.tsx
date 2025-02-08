@@ -1,5 +1,5 @@
 import LoanForm from '../../../components/LoanForm'
-import RecommendedLoans from '../../../components/RecommendedLoans'
+import RecommendedLoans from '@/components/RecommendedLoans'
 import LoanCalculator from '../../../components/LoanCalculator'
 
 import { getLoggedInUser } from "@/lib/actions/user.actions";
@@ -21,7 +21,7 @@ export default async function Home() {
 
   
   return (
-    <div className="flex h-100 overflow-scroll">
+    <div className="flex h-100 overflow-auto">
       <div className="w-3/5 p-8">
         <LoanForm />
       </div>

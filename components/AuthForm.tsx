@@ -87,12 +87,12 @@ const AuthForm = ({ type }: { type: string }) => {
       <header className='flex flex-col gap-5 md:gap-8'>
           <Link href="/" className="cursor-pointer flex items-center gap-1">
             <Image 
-              src="/icons/logo.svg"
-              width={34}
-              height={34}
-              alt="Horizon logo"
+              src="/icons/new_logo.png"
+              width={350}
+              height={350}
+              alt="logo"
             />
-            <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">Horizon</h1>
+            
           </Link>
 
           <div className="flex flex-col gap-1 md:gap-3">
@@ -145,6 +145,7 @@ const AuthForm = ({ type }: { type: string }) => {
 
               <div className="flex flex-col gap-4">
                 <Button type="submit" disabled={isLoading} className="form-btn">
+                  
                   {isLoading ? (
                     <>
                       <Loader2 size={20} className="animate-spin" /> &nbsp;
