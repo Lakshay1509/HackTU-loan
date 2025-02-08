@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState,useRef } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,12 +18,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { LoanCategory } from "../types";
 import axios from "axios";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 export default function LoanForm() {
+  const pdfRef = useRef<HTMLDivElement>(null);
   const [aadharProof, setaadharProof] = useState<File | null>(null);
   const [aadharProofURL, setaadharProofURL] = useState<string | null>(null);
   const [PANProof, setPANProof] = useState<File | null>(null);
   const [PANProofURL, setPANProofURL] = useState<string | null>(null);
+
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const handleAadharProofUpload = async (isAadhar: boolean) => {
     const data = new FormData();
@@ -71,17 +77,49 @@ export default function LoanForm() {
     }
   };
 
+
+
+  const handleDownloadPDF = async () => {
+    if (!pdfRef.current) return;
+
+    const canvas = await html2canvas(pdfRef.current);
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF();
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save('loan-application.pdf');
+  };
+
+  const sendOTP = async () => {
+    try {
+      const res = await fetch('/api/otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: phoneNumber }),
+      });
+      const data = await res.json();
+      console.log(data); // logs { sid: '...' } if successful
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+
+
   return (
-    <Card className="w-full">
+    <Card className="w-full " ref={pdfRef}>
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-blue-600">
+        <CardTitle className="text-2xl font-bold">
           Loan Application
         </CardTitle>
       </CardHeader>
       <CardContent>
         <form className="space-y-6">
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-blue-600">
+            <h3 className="text-lg font-semibold ">
               Personal Details
             </h3>
             <div className="grid grid-cols-2 gap-4">
@@ -138,7 +176,7 @@ export default function LoanForm() {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-blue-600">
+            <h3 className="text-lg font-semibold">
               Loan Details
             </h3>
             <div className="grid grid-cols-2 gap-4">
@@ -178,7 +216,7 @@ export default function LoanForm() {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-blue-600">
+            <h3 className="text-lg font-semibold ">
               Document Uploads
             </h3>
             <div className="grid grid-cols-2 gap-4">
@@ -239,14 +277,33 @@ export default function LoanForm() {
             </div>
           </div>
 
-          <Button
+          {/* <Button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+            className="w-full bg-gray-950 hover:bg-gray-700 text-white"
           >
             Submit Application
-          </Button>
+          </Button> */}
+          <Button
+        type="button"
+        onClick={handleDownloadPDF}
+        className="w-full  bg-gray-950 hover:bg-gray-700 text-white mt-4"
+      >
+        Download as PDF
+      </Button>
         </form>
+      
+      
+        {/* <Input
+  placeholder="Phone number"
+  onChange={(e) => setPhoneNumber(e.target.value)}
+/>
+<Button type="button" onClick={sendOTP}>
+  Send OTP
+</Button> */}
+
+
       </CardContent>
     </Card>
   );
 }
+

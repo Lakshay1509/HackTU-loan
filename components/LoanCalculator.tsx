@@ -51,7 +51,7 @@ export default function LoanCalculator({ transactions }: { transactions?: any[] 
 
   
 
-    const response = await axios.post('http://localhost:5000/calculate', formattedData,{
+    const response = await axios.post('http://localhost:8000/calculate', formattedData,{
       headers: {
         "Content-Type": "application/json",
       },
@@ -65,7 +65,7 @@ export default function LoanCalculator({ transactions }: { transactions?: any[] 
     <div className="pb-8">
     <Card>
       <CardHeader>
-        <CardTitle className="text-xl font-bold text-blue-600">
+        <CardTitle className="text-xl font-bold ">
           Loan Advisor
         </CardTitle>
       </CardHeader>
@@ -130,7 +130,7 @@ export default function LoanCalculator({ transactions }: { transactions?: any[] 
           </div>
           <Button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+            className="w-full bg-gray-950 hover:bg-gray-700 text-white"
           >
             Calculate
           </Button>
