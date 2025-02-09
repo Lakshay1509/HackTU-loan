@@ -27,8 +27,10 @@ export default function LoanForm() {
   const [aadharProofURL, setaadharProofURL] = useState<string | null>(null);
   const [PANProof, setPANProof] = useState<File | null>(null);
   const [PANProofURL, setPANProofURL] = useState<string | null>(null);
+  const [translate, setTranslate] = useState(false);
 
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const toggleLanguage = () => setTranslate((prev) => !prev);
+
 
   const handleAadharProofUpload = async (isAadhar: boolean) => {
     const data = new FormData();
@@ -93,98 +95,94 @@ export default function LoanForm() {
     pdf.save('loan-application.pdf');
   };
 
-  const sendOTP = async () => {
-    try {
-      const res = await fetch('/api/otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ to: phoneNumber }),
-      });
-      const data = await res.json();
-      console.log(data); // logs { sid: '...' } if successful
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  
 
 
 
   return (
     <Card className="w-full " ref={pdfRef}>
+      <div className="flex justify-end mb-4">
+          <button
+            onClick={toggleLanguage}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500"
+          >
+            {translate ? "Show in English" : "Translate to Hindi"}
+          </button>
+        </div>
       <CardHeader>
         <CardTitle className="text-2xl font-bold">
-          Loan Application
+          {translate ? "ऋण आवेदन" : "Loan Application"}
         </CardTitle>
       </CardHeader>
       <CardContent>
         <form className="space-y-6">
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold ">
-              Personal Details
+            <h3 className="text-lg font-semibold">
+              {translate ? "व्यक्तिगत विवरण" : "Personal Details"}
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" placeholder="Enter your full name" />
+                <Label htmlFor="name">{translate ? "नाम" : "Name"}</Label>
+                <Input id="name" placeholder={translate ? "अपना पूरा नाम दर्ज करें" : "Enter your full name"} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="dob">Date of Birth</Label>
+                <Label htmlFor="dob">{translate ? "जन्म तिथि" : "Date of Birth"}</Label>
                 <Input id="dob" type="date" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="gender">Gender</Label>
+                <Label htmlFor="gender">{translate ? "लिंग" : "Gender"}</Label>
                 <Select>
                   <SelectTrigger id="gender">
-                    <SelectValue placeholder="Select gender" />
+                    <SelectValue placeholder={translate ? "लिंग चुनें" : "Select gender"} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="female">Female</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
+                    <SelectItem value="male">{translate ? "पुरुष" : "Male"}</SelectItem>
+                    <SelectItem value="female">{translate ? "महिला" : "Female"}</SelectItem>
+                    <SelectItem value="other">{translate ? "अन्य" : "Other"}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="maritalStatus">Marital Status</Label>
+                <Label htmlFor="maritalStatus">{translate ? "वैवाहिक स्थिति" : "Marital Status"}</Label>
                 <Select>
                   <SelectTrigger id="maritalStatus">
-                    <SelectValue placeholder="Select marital status" />
+                    <SelectValue placeholder={translate ? "वैवाहिक स्थिति चुनें" : "Select marital status"} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="single">Single</SelectItem>
-                    <SelectItem value="married">Married</SelectItem>
-                    <SelectItem value="divorced">Divorced</SelectItem>
-                    <SelectItem value="widowed">Widowed</SelectItem>
+                    <SelectItem value="single">{translate ? "अविवाहित" : "Single"}</SelectItem>
+                    <SelectItem value="married">{translate ? "विवाहित" : "Married"}</SelectItem>
+                    <SelectItem value="divorced">{translate ? "तलाकशुदा" : "Divorced"}</SelectItem>
+                    <SelectItem value="widowed">{translate ? "विधवा/विधुर" : "Widowed"}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="residentialAddress">Residential Address</Label>
+              <Label htmlFor="residentialAddress">{translate ? "वर्तमान पता" : "Residential Address"}</Label>
               <Textarea
                 id="residentialAddress"
-                placeholder="Enter your residential address"
+                placeholder={translate ? "अपना वर्तमान पता दर्ज करें" : "Enter your residential address"}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="permanentAddress">Permanent Address</Label>
+              <Label htmlFor="permanentAddress">{translate ? "स्थायी पता" : "Permanent Address"}</Label>
               <Textarea
                 id="permanentAddress"
-                placeholder="Enter your permanent address"
+                placeholder={translate ? "अपना स्थायी पता दर्ज करें" : "Enter your permanent address"}
               />
             </div>
           </div>
 
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">
-              Loan Details
+              {translate ? "ऋण विवरण" : "Loan Details"}
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="purpose">Purpose of Loan</Label>
+                <Label htmlFor="purpose">{translate ? "ऋण का उद्देश्य" : "Purpose of Loan"}</Label>
                 <Select>
                   <SelectTrigger id="purpose">
-                    <SelectValue placeholder="Select loan category" />
+                    <SelectValue placeholder={translate ? "ऋण श्रेणी चुनें" : "Select loan category"} />
                   </SelectTrigger>
                   <SelectContent className="bg-white">
                     {Object.values(LoanCategory).map((category) => (
@@ -196,32 +194,32 @@ export default function LoanForm() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="amount">Amount</Label>
+                <Label htmlFor="amount">{translate ? "राशि" : "Amount"}</Label>
                 <Input
                   id="amount"
                   type="number"
-                  placeholder="Enter loan amount"
+                  placeholder={translate ? "ऋण राशि दर्ज करें" : "Enter loan amount"}
                   min="1000"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="year">Year</Label>
+                <Label htmlFor="year">{translate ? "अवधि (वर्षों में)" : "Year"}</Label>
                 <Input
                   id="year"
                   type="number"
-                  placeholder="Enter loan term in years"
+                  placeholder={translate ? "ऋण अवधि वर्षों में दर्ज करें" : "Enter loan term in years"}
                 />
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold ">
-              Document Uploads
+            <h3 className="text-lg font-semibold">
+              {translate ? "दस्तावेज़ अपलोड" : "Document Uploads"}
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="AadharCard">Aadhar Card</Label>
+                <Label htmlFor="AadharCard">{translate ? "आधार कार्ड" : "Aadhar Card"}</Label>
                 <Input
                   id="AadharCard"
                   type="file"
@@ -243,13 +241,12 @@ export default function LoanForm() {
                     handleAadharProofUpload(true);
                   }}
                 >
-                  Verify
+                  {translate ? "सत्यापित करें" : "Verify"}
                 </Button>
               </div>
-              {/* <div>{aadharProofURL}</div> */}
               <AadharAnimation message={aadharProofURL} />
               <div className="space-y-2">
-                <Label htmlFor="PANCard">PAN Card</Label>
+                <Label htmlFor="PANCard">{translate ? "पैन कार्ड" : "PAN Card"}</Label>
                 <Input
                   id="PANCard"
                   type="file"
@@ -270,38 +267,21 @@ export default function LoanForm() {
                   handleAadharProofUpload(false);
                 }}
               >
-                Verify
+                {translate ? "सत्यापित करें" : "Verify"}
               </Button>
               </div>
               <PANCardAnimation message={PANProofURL} />
             </div>
           </div>
 
-          {/* <Button
-            type="submit"
-            className="w-full bg-gray-950 hover:bg-gray-700 text-white"
-          >
-            Submit Application
-          </Button> */}
           <Button
-        type="button"
-        onClick={handleDownloadPDF}
-        className="w-full  bg-gray-950 hover:bg-gray-700 text-white mt-4"
-      >
-        Download as PDF
-      </Button>
+            type="button"
+            onClick={handleDownloadPDF}
+            className="w-full bg-gray-950 hover:bg-gray-700 text-white mt-4"
+          >
+            {translate ? "पीडीएफ डाउनलोड करें" : "Download as PDF"}
+          </Button>
         </form>
-      
-      
-        {/* <Input
-  placeholder="Phone number"
-  onChange={(e) => setPhoneNumber(e.target.value)}
-/>
-<Button type="button" onClick={sendOTP}>
-  Send OTP
-</Button> */}
-
-
       </CardContent>
     </Card>
   );

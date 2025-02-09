@@ -81,7 +81,7 @@ export function LoanCalculationResults({ results }: LoanCalculationResultsProps)
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Option</TableHead>
+                    <TableHead className="font-semibold">Option</TableHead>
                     {exist &&<TableHead>Extended Tenure</TableHead>}
                     <TableHead>Reduced Amount</TableHead>
                   </TableRow>
