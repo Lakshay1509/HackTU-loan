@@ -4,6 +4,7 @@ import RightSidebar from '@/components/RightSidebar';
 import TotalBalanceBox from '@/components/TotalBalanceBox';
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
+import VapiAssistant from '@/components/VapiAssistant';
 
 const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
   const currentPage = Number(page as string) || 1;
@@ -19,15 +20,26 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
 
   const account = await getAccount({ appwriteItemId })
 
+  function formatDate() {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const now = new Date();
+    const day = now.getDate();
+    const month = months[now.getMonth()];
+    const year = now.getFullYear();
+    return `${day} ${month},${year}`;
+  }
+  
+  
+
   return (
     <section className="home">
       <div className="home-content">
         <header className="home-header">
           <HeaderBox 
             type="greeting"
-            title="Welcome"
+            title="Hi,"
             user={loggedIn?.firstName || 'Guest'}
-            subtext=""
+            subtext={formatDate()}
           />
 
           <TotalBalanceBox 
@@ -45,11 +57,12 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
         />
       </div>
 
-      <RightSidebar 
+      {/* <RightSidebar 
         user={loggedIn}
         transactions={account?.transactions}
         banks={accountsData?.slice(0, 2)}
-      />
+      /> */}
+      <VapiAssistant/>
     </section>
   )
 }
