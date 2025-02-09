@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormControl, FormField, FormLabel, FormMessage } from './ui/form'
+import { FormControl, FormField, FormLabel, FormMessage , FormItem } from './ui/form'
 import { Input } from './ui/input'
 
 import { Control, FieldPath } from 'react-hook-form'
@@ -21,7 +21,7 @@ const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
       control={control}
       name={name}
       render={({ field }) => (
-        <div className="form-item">
+        <FormItem>
           <FormLabel className="form-label">
             {label}
           </FormLabel>
@@ -36,10 +36,10 @@ const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
             </FormControl>
             <FormMessage className="form-message mt-2" />
           </div>
-        </div>
+        </FormItem>
       )}
     />
-  )
+  );
 }
 
 export default CustomInput

@@ -17,11 +17,10 @@ const navigation = [
   { name: "My Banks", href: "/my-banks", icon: Bank },
   { name: "Transaction History", href: "/transaction-history", icon: History },
   { name: "Transfer Funds", href: "/payment-transfer", icon: Send },
-  // { name: "Eligibility Check", href: "/application", icon: Shield },
+  { name: "Eligibility Check", href: "/application", icon: Shield },
   { name: "Loan", href: "/loan", icon: Wallet },
-  // {name : "Submit Application", href: "http://localhost:9000/
-  // ", icon: Captions},
-  // { name: "Chat", href: "/chat", icon: MessageSquare },
+  {name : "Submit Application", href: "http://localhost:9000/", icon: Captions},
+  { name: "Chat", href: "/chat", icon: MessageSquare },
   { name: "Privacy Policy", href: "https://drive.google.com/file/d/1G_797YpinPpsrxlXc9J08XCfp4VI0Dlo/view?usp=sharing", icon: GlobeLock },
   
 ]
